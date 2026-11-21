@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Platinum Shift — GTA 6 Trophy Guide &amp; Tracker</title>
+<meta name="description" content="A session-by-session plan for the 55 GTA 6 PlayStation 5 trophies: six shifts from the opening to the platinum, a grind board with counters, a missables alarm list, and a cited guide for every trophy. Works offline.">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<header class="masthead">
+  <div class="brand">
+    <div class="punch" aria-hidden="true">IN<br>06:00</div>
+    <div>
+      <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies &middot; 1 platinum, 2 gold, 6 silver, 46 bronze</p>
+      <h1>Platinum Shift</h1>
+      <p class="tagline">Clock in. Earn trophies. Clock out. Six shifts take you from the opening mission to the platinum, one session at a time.</p>
+    </div>
+  </div>
+  <div class="timecard" id="timecard" role="status" aria-live="polite">
+    <p class="big-count"><span id="earnedCount">0</span><span class="of">/ 55</span></p>
+    <p class="timecard-label">trophies stamped</p>
+    <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+    <p class="grade-counts" id="gradeCounts">0 platinum &middot; 0 gold &middot; 0 silver &middot; 0 bronze</p>
+    <p class="next-up" id="nextUp">Next shift: Shift 1, the opening.</p>
+    <p class="shift-progress" id="shiftProgress"></p>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Views">
+  <a href="#/shifts" data-view="shifts" class="tab active">Shifts</a>
+  <a href="#/checklist" data-view="checklist" class="tab">Checklist</a>
+  <a href="#/grind" data-view="grind" class="tab">Grind board</a>
+  <a href="#/missables" data-view="missables" class="tab">Missables &middot; alarm list</a>
+  <a href="#/save" data-view="save" class="tab">Save &amp; settings</a>
+</nav>
+
+<main>
+  <section id="view-shifts" class="view active" aria-label="The six shifts">
+    <p class="honesty">Honesty note: GTA 6 is days old and no guide here has been checked in the game. Every guide below is our own reading of the official trophy description, and it says so beside each trophy. Times and effort marks are our estimates, not promises. What the official list states (name, description, grade, PSN count) is shown as PlayStation publishes it.</p>
+    <p class="plan-intro">The plan: six shifts. Each shift is one play session with a job list. Clock a trophy in when you earn it; the timecard above keeps the count. Do the <strong>now</strong> verdicts in their shift, leave the <strong>later</strong> ones for shift 5, and grab the <strong>anytime</strong> ones whenever they are near.</p>
+    <div id="shiftList" class="shift-list"></div>
+  </section>
+
+  <section id="view-checklist" class="view" aria-label="Checklist of all 55 trophies">
+    <div class="controls" aria-label="Tracker controls">
+      <label class="search">Search <input id="search" type="search" placeholder="Name, mission, or word from the description" autocomplete="off"></label>
+      <div class="filter-group" id="kindFilters" role="group" aria-label="Filter by kind">
+        <button type="button" data-kind="all" class="active">All kinds</button>
+        <button type="button" data-kind="story">Story</button>
+        <button type="button" data-kind="missable">Missable</button>
+        <button type="button" data-kind="collectibles">Collectibles</button>
+        <button type="button" data-kind="activities">Activities</button>
+        <button type="button" data-kind="online">Online</button>
+      </div>
+      <label class="check">Grade
+        <select id="gradeFilter">
+          <option value="all">All grades</option>
+          <option value="platinum">Platinum</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
+        </select>
+      </label>
+      <label class="check"><input id="hideEarned" type="checkbox"> Hide earned</label>
+      <label class="check"><input id="spoilerToggle" type="checkbox"> Spoilers off: hide unrevealed story trophies</label>
+    </div>
+    <p class="list-note" id="listNote"></p>
+    <ol id="trophyList" class="trophy-list"></ol>
+  </section>
+
+  <section id="view-grind" class="view" aria-label="Grind board with counters">
+    <p class="plan-intro">The Grind board tracks every trophy the game counts: stunts, races, cards, WAiNK tags, money and more. Tap + or &minus; as you play; the counters save in your browser beside your checklist. Targets are the counts PSN tracks, from the official list.</p>
+    <div id="grindBoard" class="grind-board"></div>
+  </section>
+
+  <section id="view-missables" class="view" aria-label="Missable trophies">
+    <p class="plan-intro">The alarm list: 15 trophies whose moment is a one-time scene or a strict condition in a single attempt. Missable here means what the official description implies: if the moment passes or the condition fails, replay the mission or reload a save from before it. They are ordered by shift, so you can see each alarm before its shift starts.</p>
+    <ol id="missableList" class="missable-list"></ol>
+  </section>
+
+  <section id="view-save" class="view" aria-label="Save and settings">
+    <h2>Save &amp; settings</h2>
+    <p>Progress saves in this browser (localStorage) as you tick trophies and tap the Grind board. Export a backup file before you clear browser data, and import it back here.</p>
+    <div class="save-row">
+      <button id="exportBtn" type="button">Export progress (.json)</button>
+      <label class="import-btn">Import progress <input id="importFile" type="file" accept="application/json,.json"></label>
+      <button id="resetBtn" type="button">Reset all progress</button>
+    </div>
+    <p id="saveStatus" class="save-status" role="status"></p>
+    <h2>About &amp; sources</h2>
+    <p>Names, descriptions, grades and PSN progress counts are the official PlayStation 5 list, as <a href="https://www.exophase.com/game/grand-theft-auto-vi-psn/trophies/">Exophase</a> and <a href="https://psnprofiles.com/trophies/43531-grand-theft-auto-vi">PSNProfiles</a> list it (55 trophies: 1 platinum, 2 gold, 6 silver, 46 bronze; 28 hidden on PlayStation until earned). Every guide is written for this entry in our own words from the official description, and each trophy names its sources. Nothing here is copied from another guide. The list has no online trophies, so the Online filter shows none: the game is single-player for this hunt.</p>
+    <p>Missable flags, shift assignments, effort marks and time estimates are our editorial plan built from the official descriptions, not confirmed in the game. If a mission can be replayed, a flagged trophy can be earned on the replay.</p>
+    <p class="fineprint">Platinum Shift is an unofficial fan guide. Grand Theft Auto and Rockstar Games are trademarks of their owners; no logo, artwork or screenshot of the game appears here. The app works offline and fetches nothing: the source links above open only if you follow them.</p>
+  </section>
+
+  <aside id="detail" class="detail" aria-label="Trophy guide" hidden></aside>
+</main>
+
+<footer>
+  <p>Platinum Shift &middot; an offline guide for the 55 GTA 6 trophies &middot; progress stays in your browser &middot; <a href="#/save">sources</a></p>
+</footer>
+</body>
+</html>

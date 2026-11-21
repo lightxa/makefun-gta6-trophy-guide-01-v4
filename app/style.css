@@ -1,0 +1,249 @@
+/* Platinum Shift: a punch-clock timecard look. Cream paper, ink navy, one red
+   stamp accent. System fonts only, so the first load stays small and the app
+   works with the network off. */
+:root {
+  --paper: #f7f1e3;
+  --card: #fffdf6;
+  --ink: #1e2a38;
+  --muted: #5d6b78;
+  --line: #d8cdb2;
+  --stamp: #c0392b;
+  --teal: #1f6f6b;
+  --gold: #b8860b;
+  --silver: #6e7b8a;
+  --bronze: #a06a3b;
+  --radius: 10px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+a { color: var(--teal); }
+button, select, input { font: inherit; color: inherit; }
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 22px 28px 16px;
+  border-bottom: 3px double var(--line);
+}
+.brand { display: flex; gap: 16px; max-width: 640px; }
+.punch {
+  flex: none;
+  width: 74px;
+  height: 74px;
+  border: 3px solid var(--stamp);
+  border-radius: 50%;
+  color: var(--stamp);
+  font: 700 13px/1.25 ui-monospace, "SF Mono", Menlo, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: rotate(-8deg);
+}
+.kicker {
+  margin: 0 0 4px;
+  font: 600 12px/1.4 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 { margin: 0; font-size: 40px; line-height: 1.05; letter-spacing: -.01em; }
+.tagline { margin: 6px 0 0; color: var(--muted); max-width: 56ch; }
+.timecard {
+  flex: none;
+  width: 300px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 6px solid var(--stamp);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+}
+.big-count { margin: 0; font: 700 34px/1 ui-monospace, "SF Mono", Menlo, monospace; }
+.big-count .of { font-size: 18px; color: var(--muted); }
+.timecard-label { margin: 2px 0 8px; color: var(--muted); font-size: 13px; }
+.bar { height: 10px; background: #e9e0c9; border-radius: 5px; overflow: hidden; }
+.bar-fill { height: 100%; width: 0; background: var(--teal); }
+.grade-counts { margin: 8px 0 2px; font-size: 13px; }
+.next-up { margin: 2px 0; font-weight: 650; }
+.shift-progress { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 28px;
+}
+.tab {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+.tab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+main { padding: 6px 28px 30px; max-width: 1180px; }
+.view { display: none; }
+.view.active { display: block; }
+.honesty, .plan-intro {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--stamp);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+.honesty { font-size: 14px; }
+.shift-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+.shift-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.shift-card h2 { margin: 0 0 2px; font-size: 20px; }
+.shift-meta {
+  margin: 0 0 8px;
+  font: 600 12px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.shift-card p.job { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+.shift-trophies { list-style: none; margin: 0; padding: 0; }
+.shift-trophies li {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 7px 0;
+  border-top: 1px dashed var(--line);
+}
+.shift-trophies button.tname {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+.grade { flex: none; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+.grade.platinum { color: var(--teal); }
+.grade.gold { color: var(--gold); }
+.grade.silver { color: var(--silver); }
+.grade.bronze { color: var(--bronze); }
+.effort { margin-left: auto; flex: none; letter-spacing: 2px; color: var(--stamp); font-size: 12px; }
+.verdict { flex: none; font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+.verdict.now { color: var(--stamp); border-color: var(--stamp); }
+.verdict.later { color: var(--muted); }
+.verdict.anytime { color: var(--teal); border-color: var(--teal); }
+.done-mark { color: var(--teal); font-weight: 700; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+.search input { padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; width: 280px; background: var(--card); }
+.filter-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter-group button {
+  padding: 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  cursor: pointer;
+}
+.filter-group button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.check { font-size: 14px; }
+.check select { padding: 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); }
+.list-note { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+.trophy-list { list-style: none; margin: 0; padding: 0; }
+.trophy-list li {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+.trophy-list input[type="checkbox"] { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--teal); }
+.trophy-list .tname { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; font-weight: 700; font-size: 16px; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.trophy-list .tdesc { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.trophy-list .tmeta { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+.trophy-list .tmeta .miss { color: var(--stamp); font-weight: 700; }
+.trophy-list .tgrade { text-align: right; }
+.trophy-list li.earned { background: #eef3ec; }
+.trophy-list li.earned .tname { text-decoration: line-through; text-decoration-color: var(--teal); }
+.grind-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.grind-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
+.grind-card h3 { margin: 0 0 2px; font-size: 16px; }
+.grind-card .gdesc { margin: 0 0 8px; color: var(--muted); font-size: 13px; }
+.counter { display: flex; gap: 8px; align-items: center; }
+.counter button {
+  width: 34px; height: 34px;
+  border: 1px solid var(--line); border-radius: 6px;
+  background: var(--paper); cursor: pointer; font-size: 18px; font-weight: 700;
+}
+.counter .count { font: 700 20px/1 ui-monospace, "SF Mono", Menlo, monospace; min-width: 90px; text-align: center; }
+.counter input { width: 90px; padding: 6px; border: 1px solid var(--line); border-radius: 6px; text-align: center; background: var(--card); }
+.mini-bar { height: 8px; background: #e9e0c9; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.mini-bar > div { height: 100%; background: var(--teal); }
+.missable-list { list-style: none; margin: 0; padding: 0; }
+.missable-list li {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--stamp);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.missable-list .tname { background: none; border: 0; padding: 0; cursor: pointer; font-weight: 700; font-size: 16px; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.missable-list p { margin: 4px 0 0; font-size: 14px; }
+.missable-list .alarm { color: var(--stamp); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.save-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+.save-row button, .import-btn {
+  padding: 9px 14px;
+  border: 1px solid var(--ink);
+  border-radius: 6px;
+  background: var(--card);
+  cursor: pointer;
+  font-weight: 650;
+}
+.import-btn input { display: none; }
+.save-status { color: var(--teal); font-weight: 600; min-height: 1.4em; }
+.fineprint { font-size: 13px; color: var(--muted); }
+.detail {
+  position: fixed;
+  right: 18px;
+  top: 18px;
+  width: min(430px, calc(100vw - 36px));
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: 0 12px 40px rgba(30, 42, 56, .3);
+  z-index: 10;
+}
+.detail h2 { margin: 0 0 4px; font-size: 22px; }
+.detail .close { float: right; border: 1px solid var(--line); background: var(--paper); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.detail .official { color: var(--muted); font-style: italic; }
+.detail .facts { font: 600 13px/1.6 ui-monospace, "SF Mono", Menlo, monospace; }
+.detail .alarm-box { border: 2px solid var(--stamp); color: var(--stamp); border-radius: 8px; padding: 8px 12px; font-weight: 700; }
+.detail .sources { font-size: 13px; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 8px; }
+.detail .earn-btn { margin-top: 10px; padding: 9px 14px; border: 1px solid var(--teal); background: var(--teal); color: #fff; border-radius: 6px; cursor: pointer; font-weight: 700; }
+footer { padding: 0 28px 24px; color: var(--muted); font-size: 13px; }
+@media (max-width: 700px) {
+  .masthead, .tabs, main { padding-left: 14px; padding-right: 14px; }
+  h1 { font-size: 30px; }
+  .timecard { width: 100%; }
+  .search input { width: 100%; }
+}
